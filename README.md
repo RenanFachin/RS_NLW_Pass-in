@@ -5,6 +5,7 @@
 
 # Pass-in
 Aplicação para a gestão e organização de participantes em eventos.
+<br>
 Este dashboard permite que seja possível que um adminstrador cadastre um evento e consiga abrir uma página pública para que usuários realizem seus check-ins.
 
 ## Requisitos
