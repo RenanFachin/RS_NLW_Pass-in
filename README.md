@@ -1,30 +1,43 @@
-# React + TypeScript + Vite
+<div align="center" >
+  <img alt="Logo NLW" title="NLW" src=".github/Insignia.png" width="128">
+</div>
+<br>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Pass-in
+Aplicação para a gestão e organização de participantes em eventos.
+Este dashboard permite que seja possível que um adminstrador cadastre um evento e consiga abrir uma página pública para que usuários realizem seus check-ins.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Requisitos funcionais
 
-## Expanding the ESLint configuration
+- [ ]  O organizador deve poder cadastrar um novo evento;
+- [ ]  O organizador deve poder visualizar dados de um evento;
+- [ ]  O organizador deve poser visualizar a lista de participantes;
+- [ ]  O participante deve poder se inscrever em um evento;
+- [ ]  O participante deve poder visualizar seu crachá de inscrição;
+- [ ]  O participante deve poder realizar check-in no evento;
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Regras de negócio
 
-- Configure the top-level `parserOptions` property like this:
+- [ ]  O participante só pode se inscrever em um evento uma única vez;
+- [ ]  O participante só pode se inscrever em eventos com vagas disponíveis;
+- [ ]  O participante só pode realizar check-in em um evento uma única vez;
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### Requisitos não-funcionais
+
+- [ ]  O check-in no evento será realizado através de um QRCode;
+
+
+## Instalação
+
+```bash
+# Faça o clone do repositório
+  git clone https://github.com/RenanFachin/RS_NLW_Pass-in.git
+
+# Instale as depêndencias
+  npm i
+
+# Executando o projeto no ambiente de desenvolvimento
+  npm run dev
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
