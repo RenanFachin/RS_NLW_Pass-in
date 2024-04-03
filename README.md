@@ -3,6 +3,10 @@
 </div>
 <br>
 
+<div align="center">
+  <img alt="home page" title="Home page Pass-in" src=".github/home-page.PNG">
+</div>
+
 # Pass-in
 Aplicação para a gestão e organização de participantes em eventos.
 <br>

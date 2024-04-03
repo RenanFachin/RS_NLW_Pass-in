@@ -32,7 +32,16 @@ interface AttendeeProps {
 }
 
 export function AttendeeList() {
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState(() => {
+    // Inicializando o estado com o valor do query parameter (se houver)
+    const url = new URL(window.location.toString())
+
+    if (url.searchParams.has('search')) {
+      return url.searchParams.get('search') ?? ''
+    }
+
+    return ''
+  })
   const [attendees, setAttendees] = useState<AttendeeProps[]>([])
 
   // Funcionalidades de paginação
@@ -49,6 +58,18 @@ export function AttendeeList() {
   })
 
   const totalPages = Math.ceil(total / 10)
+
+  function setCurrentSearch(search: string) {
+    const url = new URL(window.location.toString())
+
+    // adicionando a página ao searchParams (tudo precisa ser string)
+    url.searchParams.set('search', search)
+
+    // pushState -> não faz um redirect, apenas altera o endereço, sem fazer um recarregamento da página
+    window.history.pushState({}, '', url)
+
+    setSearch(search)
+  }
 
   function setCurrentPage(page: number) {
     const url = new URL(window.location.toString())
@@ -79,9 +100,9 @@ export function AttendeeList() {
   }
 
   function onSearchInputChangedevent(event: ChangeEvent<HTMLInputElement>) {
-    setSearch(event.target.value)
+    setCurrentSearch(event.target.value)
 
-    // setPage(1)
+    setCurrentPage(1)
   }
 
   useEffect(() => {
@@ -114,6 +135,7 @@ export function AttendeeList() {
 
           <input
             onChange={onSearchInputChangedevent}
+            value={search}
             className="bg-transparent flex-1 outline-none p-0 border-0 text-sm focus:ring-0"
             placeholder="Buscar participante..."
           />
