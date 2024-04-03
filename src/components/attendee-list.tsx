@@ -37,12 +37,15 @@ export function AttendeeList() {
 
   function onSearchInputChangedevent(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value)
+
+    setPage(1)
   }
 
   // Funcionalidades de paginação
+  const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
 
-  const totalPages = Math.ceil(attendees.length / 10)
+  const totalPages = Math.ceil(total / 10)
 
   function goToNextPage() {
     setPage(page + 1)
@@ -61,14 +64,24 @@ export function AttendeeList() {
   }
 
   useEffect(() => {
-    fetch(
+    const url = new URL(
       'http://localhost:3333/events/9e9bd979-9d10-4915-b339-3786b1634f33/attendees',
     )
+
+    url.searchParams.set('pageIndex', String(page - 1)) // de acordo com a paginação
+
+    if (search.length > 0) {
+      url.searchParams.set('query', search) // dado da barra de busca
+    }
+
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         setAttendees(data.attendees)
+
+        setTotal(data.total)
       })
-  }, [page])
+  }, [page, search])
 
   return (
     <div className="flex flex-col gap-4">
@@ -80,12 +93,10 @@ export function AttendeeList() {
 
           <input
             onChange={onSearchInputChangedevent}
-            className="bg-transparent flex-1 outline-none p-0 border-0 text-sm"
+            className="bg-transparent flex-1 outline-none p-0 border-0 text-sm focus:ring-0"
             placeholder="Buscar participante..."
           />
         </div>
-
-        {search}
       </div>
 
       <Table className="w-full">
@@ -162,7 +173,7 @@ export function AttendeeList() {
 
         <tfoot>
           <TableCell colSpan={3}>
-            Mostrando 10 de {attendees.length} itens
+            Mostrando {attendees.length} de {total} itens
           </TableCell>
 
           <TableCell className="text-right" colSpan={3}>
