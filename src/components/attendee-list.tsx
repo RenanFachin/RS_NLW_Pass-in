@@ -12,9 +12,8 @@ import {
   MoreHorizontal,
   Search,
 } from 'lucide-react'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
-import { attendees } from '../data/attendees'
 import { IconButton } from './icon-button'
 import { Table } from './table/table'
 import { TableCell } from './table/table-cell'
@@ -24,8 +23,17 @@ import { TableRow } from './table/table-row'
 dayjs.extend(relativeTime) // habilitando o plugin no dayjs
 dayjs.locale('pt-br')
 
+interface AttendeeProps {
+  id: string
+  name: string
+  email: string
+  createdAt: string
+  checkedInAt: string | null
+}
+
 export function AttendeeList() {
   const [search, setSearch] = useState('')
+  const [attendees, setAttendees] = useState<AttendeeProps[]>([])
 
   function onSearchInputChangedevent(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value)
@@ -51,6 +59,16 @@ export function AttendeeList() {
   function goToLastPage() {
     setPage(totalPages)
   }
+
+  useEffect(() => {
+    fetch(
+      'http://localhost:3333/events/9e9bd979-9d10-4915-b339-3786b1634f33/attendees',
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setAttendees(data.attendees)
+      })
+  }, [page])
 
   return (
     <div className="flex flex-col gap-4">
@@ -93,7 +111,7 @@ export function AttendeeList() {
         </thead>
 
         <tbody>
-          {attendees.slice((page - 1) * 10, page * 10).map((attendee) => {
+          {attendees.map((attendee) => {
             return (
               <TableRow
                 className="border-b border-white/10 hover:bg-highlights-300/5"
@@ -119,7 +137,15 @@ export function AttendeeList() {
 
                 <TableCell>{dayjs().to(attendee.createdAt)}</TableCell>
 
-                <TableCell>{dayjs().to(attendee.checkedInAt)}</TableCell>
+                <TableCell>
+                  {attendee.checkedInAt === null ? (
+                    <span className="text-zinc-700">
+                      Não realizou o check-in
+                    </span>
+                  ) : (
+                    dayjs().to(attendee.checkedInAt)
+                  )}
+                </TableCell>
 
                 <TableCell>
                   <IconButton

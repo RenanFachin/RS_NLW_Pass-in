@@ -13,11 +13,6 @@ export function IconButton({
 }: IconButtonProps) {
   return (
     <button
-      // className={
-      //   isTransparent
-      //     ? 'bg-black/20 '
-      //     : ' border border-white/10 rounded-md p-1.5'
-      // }
       className={twMerge(
         'border border-white/10 rounded-md p-1.5',
         isTransparent ? 'bg-black/20' : 'bg-white/10',
