@@ -6,7 +6,9 @@ import {
   MoreHorizontal,
   Search,
 } from 'lucide-react'
+import { ChangeEvent, useState } from 'react'
 
+import { attendees } from '../data/attendees'
 import { IconButton } from './icon-button'
 import { Table } from './table/table'
 import { TableCell } from './table/table-cell'
@@ -14,6 +16,12 @@ import { TableHeader } from './table/table-header'
 import { TableRow } from './table/table-row'
 
 export function AttendeeList() {
+  const [search, setSearch] = useState('')
+
+  function onSearchInputChangedevent(event: ChangeEvent<HTMLInputElement>) {
+    setSearch(event.target.value)
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-3 items-center">
@@ -23,10 +31,13 @@ export function AttendeeList() {
           <Search className="size-4 text-emerald-200" />
 
           <input
+            onChange={onSearchInputChangedevent}
             className="bg-transparent flex-1 outline-none p-0 border-0 text-sm"
             placeholder="Buscar participante..."
           />
         </div>
+
+        {search}
       </div>
 
       <Table className="w-full">
@@ -52,11 +63,11 @@ export function AttendeeList() {
         </thead>
 
         <tbody>
-          {Array.from({ length: 8 }).map((_, i) => {
+          {attendees.map((attendee) => {
             return (
               <TableRow
                 className="border-b border-white/10 hover:bg-highlights-300/5"
-                key={i}
+                key={attendee.id}
               >
                 <TableCell>
                   <input
@@ -65,20 +76,20 @@ export function AttendeeList() {
                   />
                 </TableCell>
 
-                <TableCell>12321</TableCell>
+                <TableCell>{attendee.id}</TableCell>
 
                 <TableCell>
                   <div className="flex flex-col gap-0.5">
                     <span className="font-semibold text-white">
-                      Renan Fachin
+                      {attendee.name}
                     </span>
-                    <span>renan@email.com</span>
+                    <span>{attendee.email}</span>
                   </div>
                 </TableCell>
 
-                <TableCell>7 dias atrás</TableCell>
+                <TableCell>{attendee.createdAt.toISOString()}</TableCell>
 
-                <TableCell>3 dias atrás</TableCell>
+                <TableCell>{attendee.checkedInAt.toISOString()}</TableCell>
 
                 <TableCell>
                   <IconButton
