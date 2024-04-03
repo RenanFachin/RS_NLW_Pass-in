@@ -35,32 +35,53 @@ export function AttendeeList() {
   const [search, setSearch] = useState('')
   const [attendees, setAttendees] = useState<AttendeeProps[]>([])
 
-  function onSearchInputChangedevent(event: ChangeEvent<HTMLInputElement>) {
-    setSearch(event.target.value)
-
-    setPage(1)
-  }
-
   // Funcionalidades de paginação
   const [total, setTotal] = useState(0)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(() => {
+    // Inicializando o estado com o valor do query parameter (se houver)
+    const url = new URL(window.location.toString())
+
+    if (url.searchParams.has('page')) {
+      return Number(url.searchParams.get('page'))
+    }
+
+    return 1
+  })
 
   const totalPages = Math.ceil(total / 10)
 
+  function setCurrentPage(page: number) {
+    const url = new URL(window.location.toString())
+
+    // adicionando a página ao searchParams (tudo precisa ser string)
+    url.searchParams.set('page', String(page))
+
+    // pushState -> não faz um redirect, apenas altera o endereço, sem fazer um recarregamento da página
+    window.history.pushState({}, '', url)
+
+    setPage(page)
+  }
+
   function goToNextPage() {
-    setPage(page + 1)
+    setCurrentPage(page + 1)
   }
 
   function goToPreviousPage() {
-    setPage(page - 1)
+    setCurrentPage(page - 1)
   }
 
   function goToFirstPage() {
-    setPage(1)
+    setCurrentPage(1)
   }
 
   function goToLastPage() {
-    setPage(totalPages)
+    setCurrentPage(totalPages)
+  }
+
+  function onSearchInputChangedevent(event: ChangeEvent<HTMLInputElement>) {
+    setSearch(event.target.value)
+
+    // setPage(1)
   }
 
   useEffect(() => {
