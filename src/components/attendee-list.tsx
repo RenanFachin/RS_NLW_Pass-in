@@ -144,7 +144,7 @@ export function AttendeeList() {
 
       <Table className="w-full">
         <thead>
-          <tr className="border-b border-white/10">
+          <tr className="border-b border-white/20">
             <TableHeader style={{ width: 48 }}>
               <input
                 type="checkbox"
