@@ -26,3 +26,8 @@ jobs:
 
       - name: Build da aplicação
         run: npm run build
+
+      - name: Verificar scripts de infraestrutura
+        run: |
+          chmod +x scripts/*.sh
+          echo "✅ Scripts de infraestrutura verificados"

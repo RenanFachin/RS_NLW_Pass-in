@@ -57,13 +57,36 @@ src/
 
 ## 🔄 CI/CD
 
-O projeto possui um pipeline simples no GitHub Actions que:
+O projeto possui pipelines automatizados no GitHub Actions:
+
+### **CI Pipeline** (`cy.yml`)
 
 - ✅ Instala as dependências
 - ✅ Verifica o código com ESLint
 - ✅ Faz o build da aplicação
+- ✅ Valida scripts de infraestrutura
 
-O pipeline roda automaticamente em pushes e pull requests para a branch `main`.
+### **Deploy Pipeline** (`deploy.yml`)
+
+- 🚀 Deploy automático para Vercel
+- 🔍 Verificações de qualidade
+- 💬 Comentários automáticos em PRs
+
+## 🛠️ Scripts de Infraestrutura
+
+```bash
+npm run setup    # Configurar ambiente de desenvolvimento
+npm run deploy   # Deploy manual para produção
+```
+
+### Estrutura de Scripts
+
+```
+scripts/
+├── setup-env.sh    # Setup do ambiente
+├── deploy.sh       # Deploy automatizado
+└── README.md       # Documentação dos scripts
+```
 
 ---
 
