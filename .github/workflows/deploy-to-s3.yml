@@ -20,5 +20,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Build do projeto
+        run: npm run build
+
       - name: Deploy para S3
         run: aws s3 sync dist/ s3://pass-in-app-devops --delete --acl public-read
