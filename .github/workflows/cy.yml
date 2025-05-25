@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - Pass.in Frontend
+name: CI Pipeline - Pass.in Frontend
 
 on:
   push:
@@ -26,56 +26,3 @@ jobs:
 
       - name: Build da aplicação
         run: npm run build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-files
-          path: dist/
-
-  preview-deploy:
-    runs-on: ubuntu-latest
-    name: Deploy Preview
-    needs: build
-    if: github.event_name == 'pull_request' && vars.ENABLE_VERCEL_DEPLOY == 'true'
-
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-files
-          path: dist/
-
-      - name: Deploy para Vercel Preview
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-
-  production-deploy:
-    runs-on: ubuntu-latest
-    name: Deploy Produção
-    needs: build
-    if: github.ref == 'refs/heads/main' && vars.ENABLE_VERCEL_DEPLOY == 'true'
-
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-files
-          path: dist/
-
-      - name: Deploy para Vercel Produção
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: "--prod"
