@@ -1,55 +1,26 @@
-name: CI/CD Pipeline - Pass.in Frontend
+name: CI com Deploy Vercel
 
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
-  workflow_dispatch: # Permite execução manual
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    name: Build, Verificações e Deploy
 
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
 
       - name: Instalar dependências
-        run: npm ci
+        run: npm install
 
-      - name: Build da aplicação
+      - name: Build do projeto
         run: npm run build
 
-      - name: Verificar scripts de infraestrutura
-        run: |
-          chmod +x scripts/*.sh
-          echo "✅ Scripts de infraestrutura verificados"
-
-      - name: Deploy para Vercel (apenas em push para main)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-          vercel-args: "--prod"
-
-      - name: Comentar PR com status
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '✅ Build e verificações concluídas com sucesso!\n\n🔍 ESLint: Aprovado\n🏗️ Build: Sucesso\n📦 Scripts: Verificados'
-            })
+      - name: Deploy para Vercel
+        run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
