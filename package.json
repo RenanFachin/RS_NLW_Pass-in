@@ -8,10 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "type-check": "tsc --noEmit",
-    "preview": "vite preview",
-    "clean": "rm -rf dist node_modules/.vite",
-    "ci": "npm ci && npm run type-check && npm run lint && npm run build"
+    "preview": "vite preview"
   },
   "dependencies": {
     "dayjs": "^1.11.10",
@@ -34,7 +31,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "eslint-plugin-simple-import-sort": "^12.0.0",
-    "husky": "^9.0.11",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
