@@ -77,18 +77,19 @@ Verificações:
 └── Verificar scripts
 ```
 
-### **Deploy Pipeline** (`.github/workflows/deploy.yml`)
+### **Pipeline Unificado** (`.github/workflows/cy.yml`)
 
-**Trigger:** Push para `main` + Manual
+**Trigger:** Push/PR para `main` + Manual
 
 ```yaml
-Deploy:
+CI/CD Completo:
 ├── Checkout código
 ├── Setup Node.js 18
 ├── Instalar dependências
 ├── ESLint
 ├── Build
-├── Deploy Vercel
+├── Verificar scripts
+├── Deploy Vercel (apenas push main)
 └── Comentar PR
 ```
 
