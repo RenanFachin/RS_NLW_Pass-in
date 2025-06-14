@@ -27,4 +27,4 @@ jobs:
         run: npm run build
 
       - name: Deploy para S3
-        run: aws s3 sync dist/ s3://pass-in-app-devops --delete
+        run: aws s3 sync dist/ s3://pass-in-app-devops-2 --delete
