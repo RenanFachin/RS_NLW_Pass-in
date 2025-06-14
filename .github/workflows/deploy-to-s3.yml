@@ -10,21 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. CI - Integração Contínua
       - name: Checkout do código
         uses: actions/checkout@v2
-
-      - name: Setup AWS CLI
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
 
       - name: Instalar dependências
         run: npm install
 
       - name: Build do projeto
         run: npm run build
+
+      # 2. CD - Entrega Contínua (deploy automático no S3)
+      - name: Setup AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
 
       - name: Deploy para S3
         run: aws s3 sync dist/ s3://pass-in-app-devops-2 --delete
